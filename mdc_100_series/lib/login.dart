@@ -92,6 +92,9 @@ class _LoginPageState extends State<LoginPage> {
                 // Next button
                 ElevatedButton(
                   child: const Text('NEXT'),
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(8.0),
+                  ),
                   onPressed: () {
                     // TODO: Show the next page (101)
                     Navigator.pop(context); // remove this screen from the view
