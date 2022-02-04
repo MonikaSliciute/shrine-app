@@ -13,3 +13,4 @@ const kShrineSurfaceWhite = Color(0xFFFFFBFA);
 const kShrineBackgroundWhite = Colors.white;
 
 const kShrinePurple = Color(0xFF490539);
+const kShrineBlack = Color(0xFF000000);
