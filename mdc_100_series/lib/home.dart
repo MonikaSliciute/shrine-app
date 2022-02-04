@@ -13,96 +13,23 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter/services.dart';
 
 import 'model/products_repository.dart';
 import 'model/product.dart';
+import 'supplemental/asymmetric_view.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  // TODO: Make a collection of cards (102)
-  List<Card> _buildGridCards(BuildContext context) {
-    List<Product> products =
-        ProductsRepository.loadProducts(Category.all); // all products
-
-    if (products.isEmpty) {
-      // if no products
-      return const <Card>[]; // empty array
-    }
-
-    final ThemeData theme = Theme.of(context);
-    final NumberFormat formatter = NumberFormat.simpleCurrency(
-        locale: Localizations.localeOf(context).toString());
-
-    return products.map((product) {
-      return Card(
-        clipBehavior: Clip.antiAlias,
-        // TODO: Adjust card heights (103)
-        elevation: 0.0,
-        child: Column(
-          // TODO: Center items on the card (103)
-          // TODO: Center items on the card (103)
-          crossAxisAlignment:
-              CrossAxisAlignment.center, // align to the leading edge (left)
-          children: <Widget>[
-            AspectRatio(
-              aspectRatio: 18.0 /
-                  11.0, // what shape the image takes no matter what kind of image is supplied
-              child: Image.asset(
-                product.assetName,
-                package: product.assetPackage,
-                // TODO: Adjust the box size (102)
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0,
-                    8.0), // brings the text in from the side a little.
-
-                child: Column(
-                  // TODO: Align labels to the bottom and center (103)
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  // TODO: Change innermost Column (103)
-                  children: <Widget>[
-                    // TODO: Handle overflowing labels (103)
-                    Text(
-                      product.name,
-                      style: theme.textTheme.button,
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      formatter.format(product.price),
-                      style: theme.textTheme.caption,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }).toList();
-  }
-
   // TODO: Add a variable for Category (104)
+
   @override
   Widget build(BuildContext context) {
     // TODO: Return an AsymmetricView (104)
     // TODO: Pass Category variable to AsymmetricView (104)
     return Scaffold(
-      // removed const
-      // TODO: Add app bar (102)
       appBar: AppBar(
-        // TODO: Add buttons and title (102)
-        title: const Text('SHRINE'),
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
         leading: IconButton(
-          // leading = left, trailing = right
           icon: const Icon(
             Icons.menu,
             semanticLabel: 'menu',
@@ -111,41 +38,27 @@ class HomePage extends StatelessWidget {
             print('Menu button');
           },
         ),
-        // TODO: Add trailing buttons (102)
+        title: const Text('SHRINE'),
         actions: <Widget>[
           IconButton(
-              onPressed: () {
-                print('Search button');
-              },
-              icon: const Icon(
-                Icons.search,
-                semanticLabel: 'search', // accessibility
-              )),
-          IconButton(
             icon: const Icon(
-              Icons.tune,
-              semanticLabel: 'filter',
+              Icons.search,
+              semanticLabel: 'search',
             ),
+            onPressed: () {
+              print('Search button');
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.tune, semanticLabel: 'filter'),
             onPressed: () {
               print('Filter button');
             },
           ),
         ],
       ),
-      // TODO: Add a grid view (102)
-      body: GridView.count(
-          // .count constructor for displaying a finite number of items
-          crossAxisCount: 2, // 2 columns (non-scrolling axis)
-          padding: const EdgeInsets.all(16.0),
-          childAspectRatio: 8.0 /
-              9.0, // identifies the size of the items based on an aspect ratio (width over height)
-          // TODO: Build a grid of cards (102)
-          // card's size is width = width of the grid - padding(left+right) / columns(2)
-          // height = card's width * 9/8 (childAspectRatio flipped)
-          children: _buildGridCards(context)),
-      // TODO: Set resizeToAvoidBottomInset (101)
-      resizeToAvoidBottomInset:
-          false, // ensures that the keyboard's appearance does not alter the size of the home page or its widgets.
+      body: AsymmetricView(
+          products: ProductsRepository.loadProducts(Category.all)),
     );
   }
 }
