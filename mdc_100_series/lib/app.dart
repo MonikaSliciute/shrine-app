@@ -59,23 +59,26 @@ ThemeData _buildShrineTheme() {
   final ThemeData base = ThemeData.light();
   return base.copyWith(
     colorScheme: base.colorScheme.copyWith(
-      primary: kShrinePurple,
-      secondary: kShrinePurple,
+      primary: kShrinePink100,
+      onPrimary: kShrineBrown900,
+      secondary: kShrineBrown900,
       error: kShrineErrorRed,
     ),
-    scaffoldBackgroundColor: kShrineSurfaceWhite,
+    // TODO: Add the text themes (103)
     textTheme: _buildShrineTextTheme(base.textTheme),
     textSelectionTheme: const TextSelectionThemeData(
-      selectionColor: kShrinePurple,
+      selectionColor: kShrinePink100,
     ),
+    // TODO: Add the icon themes (103)
+    // TODO: Decorate the inputs (103)
     inputDecorationTheme: const InputDecorationTheme(
+      border: CutCornersBorder(),
       focusedBorder: CutCornersBorder(
         borderSide: BorderSide(
           width: 2.0,
-          color: kShrinePurple,
+          color: kShrineBrown900,
         ),
       ),
-      border: CutCornersBorder(),
     ),
   );
 }
